@@ -26,6 +26,10 @@
       cardList() {
         return this.$store.getters.allCards
       }
-    }
+    },
+    created(){
+    if(this.$store.getters.allCards === null)
+      this.$store.dispatch("fetchPlayers");
+  }
   }
 </script>

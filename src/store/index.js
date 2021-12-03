@@ -5,66 +5,34 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      mainPlayers: [
-      {
-       id: 1,
-       title: "João Paulo",
-       subtitle: "Goalkeeper",
-       img: './photos/JoaoPaulo.jpg',
-      },
-      {
-          id: 2,
-          title: "Kaiky",
-          subtitle: "Defender",
-          img: './photos/Kaiky.jpg',
-      },
-      {
-          id: 3,
-          title: "Velazquez",
-          subtitle: "Defender",
-          img: './photos/Velasquez.jpg',
-      },
-      {
-          id:4,
-          title: "Sandry",
-          subtitle: "Midfielder",
-          img: './photos/Sandry.jpg',
-      },
-      {
-          id:5,
-          title: "Ângelo",
-          subtitle: "Striker",
-          img: './photos/Angelo.jpg',
-      },
-      {
-          id:6,
-          title: "Lucas Braga",
-          subtitle: "Striker",
-          img: './photos/LucasBraga.jpg',
-      },
-      {
-          id:7,
-          title: "Marcos Leonardo",
-          subtitle: "Striker",
-          img: './photos/MarcosLeonardo.jpg',
-      },
-      {
-          id:8,
-          title: "Marinho",
-          subtitle: "Striker",
-          img: './photos/Marinho3.jpg',
-      },
-      ]
+    players: null,
   },
   mutations: {
+    SET_PLAYERS(state,payload){
+        state.players = payload;
+      },
   },
   actions: {
+    fetchPlayers() {
+        fetch('./data/bd.json')
+          .then((res) => {
+            if(!res.ok)
+              throw Error('Could not get players');
+            
+            return res.json();
+          })
+          .then((data) => {
+            const payload = data.players;
+            this.commit('SET_PLAYERS',payload);
+          })
+          .catch((error) => console.log(error));
+      },
   },
   modules: {
   },
   getters:{
     allCards(state) {
-        return state.mainPlayers;
+        return state.players;
       },
   }
 
